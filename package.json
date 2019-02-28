@@ -1,0 +1,24 @@
+{
+  "name": "mockjs-fetch",
+  "version": "1.0.0",
+  "description": "Let your mock.js support fetch.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sxei/mockjs-fetch.git"
+  },
+  "keywords": [
+    "mock",
+    "mockjs",
+    "fetch"
+  ],
+  "author": "sxei",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sxei/mockjs-fetch/issues"
+  },
+  "homepage": "https://github.com/sxei/mockjs-fetch#readme"
+}
