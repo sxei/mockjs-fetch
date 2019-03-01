@@ -1,5 +1,5 @@
 /**
- * 鉴于Mock.js不支持拦截fetch发起的ajax，本文件即为Mock.js的补充。
+ * 鉴于Mock.js不支持拦截fetch发起的ajax，本模块即为Mock.js的补充。
  * 兼容Mock.js以下语法：
  * Mock.setup({timeout: 400})
  * Mock.setup({timeout: '200-400'})
@@ -40,6 +40,7 @@ function mockFetch(Mock) {
                             json() {
                                 return Promise.resolve(resp);
                             },
+                            // blob、formData等一系列方法仅仅是为了让fetch不报错，并没有具体实现它
                             blob() {
                                 return Promise.resolve(resp);
                             },
