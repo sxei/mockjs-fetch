@@ -1,6 +1,6 @@
 # mockjs-fetch
 
-鉴于Mock.js不支持拦截fetch发起的ajax，本模块即为Mock.js的补充。兼容Mock.js以下语法：
+鉴于`Mock.js`不支持拦截`fetch`发起的`ajax`，本模块即为`Mock.js`的补充。兼容`Mock.js`以下语法：
 
  * Mock.setup({timeout: 400})
  * Mock.setup({timeout: '200-400'})
