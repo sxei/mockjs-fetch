@@ -13,6 +13,14 @@ Mock.setup({timeout: '200-400'});
 import Mock from 'mockjs';
 import mockFetch from 'mockjs-fetch';
 mockFetch(Mock);
+```
+
+完整示例：
+
+```js
+import Mock from 'mockjs';
+import mockFetch from 'mockjs-fetch';
+mockFetch(Mock);
 
 Mock.setup({
     timeout: '200-400', // mockFetch支持 mockjs 已有的 timeout 设置项
