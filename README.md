@@ -2,8 +2,10 @@
 
 鉴于`Mock.js`不支持拦截`fetch`发起的`ajax`，本模块即为`Mock.js`的补充。兼容`Mock.js`以下语法：
 
- * Mock.setup({timeout: 400})
- * Mock.setup({timeout: '200-400'})
+```js
+Mock.setup({timeout: 400});
+Mock.setup({timeout: '200-400'});
+```
 
 加2行代码让你的`mock.js`支持`fetch`：
 
