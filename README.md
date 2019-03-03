@@ -1,18 +1,24 @@
 # mockjs-fetch
 
-鉴于`Mock.js`不支持拦截`fetch`发起的`ajax`，本模块即为`Mock.js`的补充。兼容`Mock.js`以下语法：
+鉴于`Mock.js`不支持拦截`fetch`发起的`ajax`，本模块即为`Mock.js`的补充。安装：
 
-```js
-Mock.setup({timeout: 400});
-Mock.setup({timeout: '200-400'});
+```bash
+npm i mockjs-fetch --save
 ```
 
-加2行代码让你的`mock.js`支持`fetch`：
+只需加2行代码就可以让你的`mock.js`支持`fetch`：
 
 ```js
 import Mock from 'mockjs';
 import mockFetch from 'mockjs-fetch';
 mockFetch(Mock);
+```
+
+兼容`Mock.js`以下语法：
+
+```js
+Mock.setup({timeout: 400});
+Mock.setup({timeout: '200-400'});
 ```
 
 完整示例：
