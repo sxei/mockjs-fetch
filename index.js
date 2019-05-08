@@ -17,7 +17,7 @@ function mockFetch(Mock) {
     window.fetch = function(url, options) {
         const method = (options || { method: 'GET' }).method;
         if (Mock.XHR._settings.debug) {
-            console.log(`${method} ${url}`);
+            console.log(`${method} ${url}`, 'options: ', options);
         }
         for (const key in Mock._mocked) {
             const item = Mock._mocked[key];
@@ -30,8 +30,9 @@ function mockFetch(Mock) {
                     const temp = timeout.split('-').map(item => parseInt(item));
                     timeout = temp[0] + Math.round(Math.random() * (temp[1] - temp[0]));
                 }
+                options.url = url;
                 return new Promise(resolve => {
-                    const resp = typeof item.template === 'function' ? item.template.apply() : Mock.mock(item.template);
+                    const resp = typeof item.template === 'function' ? item.template.call(this, options) : Mock.mock(item.template);
                     setTimeout(() => {
                         resolve({
                             text() {
@@ -52,7 +53,7 @@ function mockFetch(Mock) {
                             },
                         });
                         if (Mock.XHR._settings.debug) {
-                            console.log(resp);
+                            console.log('resp: ', resp);
                         }
                     }, timeout);
                 });
