@@ -15,7 +15,8 @@ function mockFetch(Mock) {
     }
     window[tempFetchName] = window.fetch;
     window.fetch = function(url, options) {
-        const method = (options || { method: 'GET' }).method;
+        options = options || {method: 'GET'};
+        const method = options.method;
         if (Mock.XHR._settings.debug) {
             console.log(`${method} ${url}`, 'options: ', options);
         }
@@ -35,6 +36,7 @@ function mockFetch(Mock) {
                     const resp = typeof item.template === 'function' ? item.template.call(this, options) : Mock.mock(item.template);
                     setTimeout(() => {
                         resolve({
+                            status: 200,
                             text() {
                                 return Promise.resolve(JSON.stringify(resp));
                             },
