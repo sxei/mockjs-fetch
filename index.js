@@ -36,7 +36,16 @@ function mockFetch(Mock) {
                     const resp = typeof item.template === 'function' ? item.template.call(this, options) : Mock.mock(item.template);
                     setTimeout(() => {
                         resolve({
+                            ok: true,
                             status: 200,
+                            headers: {
+                                get() {
+                                    return '';
+                                },
+                                set() {
+
+                                },
+                            },
                             text() {
                                 return Promise.resolve(JSON.stringify(resp));
                             },
