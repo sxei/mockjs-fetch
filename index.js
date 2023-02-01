@@ -1,3 +1,10 @@
+function getParams(url) {
+    var params = {};
+    (url.split('?')[1] || '').split('&').map(item => item.split('=')).forEach(([key, value]) => {
+        params[key] = value;
+    });
+    return params;
+}
 /**
  * 鉴于Mock.js不支持拦截fetch发起的ajax，本模块即为Mock.js的补充。
  * 兼容Mock.js以下语法：
@@ -14,7 +21,7 @@ function mockFetch(Mock) {
         return;
     }
     window[tempFetchName] = window.fetch;
-    window.fetch = function(url, options) {
+    window.fetch = function(url, options = {}) {
         options = options || {method: 'GET'};
         const method = options.method;
         if (Mock.XHR._settings.debug) {
@@ -33,7 +40,24 @@ function mockFetch(Mock) {
                 }
                 options.url = url;
                 return new Promise(resolve => {
-                    const resp = typeof item.template === 'function' ? item.template.call(this, options) : Mock.mock(item.template);
+                    let params = {};
+                    if (method === 'GET') {
+                        (url.split('?')[1] || '').split('&').map(item => item.split('=')).forEach(([key, value]) => {
+                            params[key] = value;
+                        });
+                    } else if (method === 'POST') {
+                        // 仅考虑最见场景，有待完善
+                        try {
+                            if (options.headers && (options.headers['Content-Type'] || '').indexOf('json') > 0) {
+                                params = JSON.parse(options.body || '{}');
+                            } else {
+                                params = getParams(`?${options.body || ''}`);
+                            }
+                        } catch (e) {
+                        }
+                    }
+                    // function的参数包括fetch的原始options以及url和解析出来的params
+                    const resp = typeof item.template === 'function' ? item.template.call(this, { url, params, ...options }) : Mock.mock(item.template);
                     setTimeout(() => {
                         resolve({
                             ok: true,
@@ -74,5 +98,26 @@ function mockFetch(Mock) {
     };
 }
 
+var Mock = {
+    _mocked: {},
+    XHR: {
+        _settings: {},
+    },
+    idx: 0,
+    mock: function(rurl, template) {
+        // 兼容 Mock.mock(template) 的语法
+        if (!template) {
+            return rurl;
+        }
+        mockFetch(Mock);
+        Mock._mocked[`${Mock.idx++}`] = { rurl, template };
+    },
+    setup: function(settings) {
+        Object.assign(Mock.XHR._settings, settings || {});
+    },
+};
 
-module.exports = mockFetch;
+module.exports = {
+    mockFetch,
+    Mock,
+};

@@ -1,6 +1,6 @@
 {
   "name": "mockjs-fetch",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Let your mock.js support fetch.",
   "main": "index.js",
   "scripts": {
